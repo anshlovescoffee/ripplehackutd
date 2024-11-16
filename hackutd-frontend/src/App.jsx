@@ -1,67 +1,89 @@
-import React, { useState, useCallback } from 'react'
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import { LoadScript } from '@react-google-maps/api';
+import LocationSearchInput from './components/LocationSearchInput.jsx';
 
+const libraries = ['places'];
 
-const mapStyle = { 
-    height: '300px', 
-    width: '100%'
- }
+function App() {
+  const [location, setLocation] = useState(() => {
+    const savedLocation = sessionStorage.getItem('location');
+    return savedLocation ? JSON.parse(savedLocation) : null;
+  });
+  const [peopleInHousehold, setPeopleInHousehold] = useState(() => {
+    return sessionStorage.getItem('peopleInHousehold') || '';
+  });
+  const [dailyUseCase, setDailyUseCase] = useState(() => {
+    return sessionStorage.getItem('dailyUseCase') || '';
+  });
 
+  useEffect(() => {
+    sessionStorage.setItem('location', JSON.stringify(location));
+  }, [location]);
 
+  useEffect(() => {
+    sessionStorage.setItem('peopleInHousehold', peopleInHousehold);
+  }, [peopleInHousehold]);
 
-const Map = () => {
-    const DEFAULT_ZOOM = 5
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: ""
-    })
+  useEffect(() => {
+    sessionStorage.setItem('dailyUseCase', dailyUseCase);
+  }, [dailyUseCase]);
 
-    const [map, setMap] = React.useState(null)
-    const [markerPosition, setMarkerPosition] = useState({
-        lat: 28.0289837,
-        lng: 1.6666663,
-      })
+  const handlePlaceSelected = (place) => {
+    setLocation(place);
+    console.log('Selected place:', place);
+  };
 
-    const [defaultLocation, setDefaultLocation] = useState({
-        lat: 28.0289837,
-        lng: 1.6666663,
-      })
+  const handlePeopleChange = (event) => {
+    const value = event.target.value;
+    if (value >= 0 && value <= 20) {
+      setPeopleInHousehold(value);
+    }
+  };
 
-    const onLoad = useCallback((map)=> {
-        const bounds = new window.google.maps.LatLngBounds({
-            lat: 28.0289837,
-            lng: 1.6666663,
-          });
-        map.fitBounds(bounds);
-        setMap(map)
-      }, [])
+  const handleUseCaseChange = (event) => {
+    setDailyUseCase(event.target.value);
+  };
 
-      const onUnmount = useCallback(() =>{
-        setMap(null)
-      }, [])
-
-
-    const handelClickOnMap  = ()=> {
-
-      }
   return (
-    <div>
-     {
-        isLoaded ? (
-        <GoogleMap
-        onLoad={onLoad}
-        center={defaultLocation}
-        zoom={DEFAULT_ZOOM}
-        mapContainerStyle={mapStyle}
-        onClick={handelClickOnMap}
-        onUnmount={onUnmount}
-        >
-           <Marker position={markerPosition} />
-        </GoogleMap>
-        ) : <></>
-     }  
-   </div>
-  )
+    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
+      <div className="App">
+        <div>
+          <label>
+            People in Household:
+            <input
+              type="number"
+              value={peopleInHousehold}
+              onChange={handlePeopleChange}
+              placeholder="Enter number of people"
+              min="0"
+              max="20"
+              className="input-box"
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            
+            Address: <LocationSearchInput onPlaceSelected={handlePlaceSelected} />
+          </label>
+        </div>
+        <div>
+          <label>
+            Daily Use Case:
+            <select value={dailyUseCase} onChange={handleUseCaseChange} className="select-box">
+              <option value="">Select a use case</option>
+              <option value="Work">Work</option>
+              <option value="School">School</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Exercise">Exercise</option>
+              <option value="Leisure">Leisure</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </LoadScript>
+  );
 }
 
-export default Map
+export default App;
