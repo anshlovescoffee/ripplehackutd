@@ -30,7 +30,7 @@ const PlansPage = () => {
       .catch(() => {
         // Fallback value in case of error
         console.error('Failed to fetch recommended plan. Using fallback value.');
-        setRecommendedPlanId(2); // Fallback to plan ID 1 if the API call fails
+        setRecommendedPlanId(2); // Fallback to plan ID 2 if the API call fails
       });
   }, []);
 
@@ -39,7 +39,6 @@ const PlansPage = () => {
     labels: plans.map((plan) => plan.name),
     datasets: [
       {
-        label: 'Recommended Plan',
         data: plans.map((plan) => plan.speed),
         backgroundColor: plans.map((plan) =>
           plan.id === recommendedPlanId ? '#daa617' : '#b02929'
@@ -53,13 +52,41 @@ const PlansPage = () => {
     labels: plans.map((plan) => plan.name),
     datasets: [
       {
-        label: 'Recommended Plan',
         data: plans.map((plan) => plan.price),
         backgroundColor: plans.map((plan) =>
           plan.id === recommendedPlanId ? '#daa617' : '#b02929'
         ),
       },
     ],
+  };
+
+  // Bar chart options to customize the legend
+  const chartOptions = {
+    plugins: {
+      legend: {
+        display: true, // Display the legend
+        labels: {
+          generateLabels: (chart) => {
+            // Custom labels to only show the gold color
+            return [
+              {
+                text: 'Recommended Plan', // No text for the label
+                fillStyle: '#daa617', // Gold color
+                fontColor: '#ffffff',
+                hidden: false,
+                lineCap: 'butt',
+                lineDash: [],
+                lineDashOffset: 0,
+                lineJoin: 'miter',
+                strokeStyle: '#daa617',
+                pointStyle: 'rect',
+                rotation: 0,
+              },
+            ];
+          },
+        },
+      },
+    },
   };
 
   return (
@@ -86,11 +113,11 @@ const PlansPage = () => {
       <div className="graphs-container">
         <div className="graph">
           <h2>Plan Speeds</h2>
-          <Bar data={speedData} />
+          <Bar data={speedData} options={chartOptions} />
         </div>
         <div className="graph">
           <h2>Plan Prices</h2>
-          <Bar data={priceData} />
+          <Bar data={priceData} options={chartOptions} />
         </div>
       </div>
     </div>
