@@ -133,3 +133,31 @@
     border-color: #0d9a2e; /* Gold border for selected add-on */
 }
 
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .input-group {
+    margin: 10px 0;
+  }
+  
+  .input-group label {
+    font-size: 1.5rem; /* Larger label text */
+  }
+  
+  .input-group input {
+    font-size: 1.5rem; /* Larger input text */
+    padding: 10px; /* More padding for input */
+    width: 300px; /* Set a fixed width for the input box */
+    border-radius: 5px; /* Optional: rounded corners */
+    border: 1px solid #ccc; /* Optional: border styling */
+  }
+  
+  .select-button, .continue-button {
+    margin-top: 20px;
+    padding: 15px 30px; /* Larger button padding */
+    font-size: 1.5rem; /* Larger button text */
+    cursor: pointer;
+  }
