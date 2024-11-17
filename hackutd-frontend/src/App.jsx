@@ -17,7 +17,7 @@ function FormComponent() {
   const [state, setState] = useState(() => sessionStorage.getItem('state') || '');
   const [peopleInHousehold, setPeopleInHousehold] = useState(() => sessionStorage.getItem('peopleInHousehold') || '');
   const [dailyUseCase, setDailyUseCase] = useState(() => sessionStorage.getItem('dailyUseCase') || '');
-  const [step, setStep] = useState(1); // 1 for address entry, 2 for the rest of the form
+  const [step, setStep] = useState(1); // 1 for address entry, 2 for people entry, 3 for use case entry
 
   const navigate = useNavigate();
 
@@ -50,10 +50,8 @@ function FormComponent() {
     );
     const city = cityComponent ? cityComponent.long_name : '';
     const state = stateComponent ? stateComponent.short_name : '';
-    console.log('Selected place:', city, state);
     setCity(city);
     setState(state);
-    console.log('Selected place:', place);
   };
 
   const handleAddressSubmit = () => {
@@ -71,27 +69,44 @@ function FormComponent() {
     }
   };
 
+  const handlePeopleSubmit = () => {
+    if (peopleInHousehold) {
+      setStep(3);
+    } else {
+      alert('Please enter the number of people in the household.');
+    }
+  };
+
   const handleUseCaseChange = (event) => {
     setDailyUseCase(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleUseCaseSubmit = (event) => {
     event.preventDefault();
-    // After processing the form, navigate to the PlansPage
-    navigate('/plans');
+    if (dailyUseCase) {
+      navigate('/plans');
+    } else {
+      alert('Please select a daily use case.');
+    }
   };
-
 
   const handleKeyPress = (event) => {
-  if (event.key === 'Enter') {
-    handleAddressSubmit();
-  }
+    if (event.key === 'Enter') {
+      if (step === 1) {
+        handleAddressSubmit();
+      } else if (step === 2) {
+        handlePeopleSubmit();
+      } else if (step === 3) {
+        handleUseCaseSubmit(event);
+      }
+    }
   };
+
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
         <img src={frontierImage} alt="Frontier" className="logo" /> {/* Use the image */}
-        {step === 1 ? (
+        {step === 1 && (
           <div className="address-step">
             <h1 className="address-prompt">Find the plan that's right for you</h1>
             <h2>Let's look at plans available at your home</h2>
@@ -102,38 +117,45 @@ function FormComponent() {
               </button>
             </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                People in Household:
-                <input
-                  type="number"
-                  value={peopleInHousehold}
-                  onChange={handlePeopleChange}
-                  placeholder="Enter number of people"
-                  min="0"
-                  max="20"
-                  className="input-box"
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Daily Use Case:
-                <select value={dailyUseCase} onChange={handleUseCaseChange} className="select-box">
-                  <option value="">Select a use case</option>
-                  <option value="Work">Work</option>
-                  <option value="School">School</option>
-                  <option value="Shopping">Shopping</option>
-                  <option value="Exercise">Exercise</option>
-                  <option value="Leisure">Leisure</option>
-                </select>
-              </label>
-            </div>
-            <button type="submit">Submit</button>
-          </form>
         )}
+{step === 2 && (
+  <div className="people-step">
+  <h1 className="address-prompt">How many people live with you?</h1>
+    <div className="tiles-container">
+      {[1, 2, 3, 4].map((num) => (
+        <div
+          key={num}
+          className={`tile ${peopleInHousehold === num.toString() ? 'selected' : ''}`}
+          onClick={() => setPeopleInHousehold(num.toString())}
+        >
+          <h3>{num} {num === 1 ? 'Person' : 'People'}</h3>
+        </div>
+      ))}
+    </div>
+    <button className="submit-button" onClick={handlePeopleSubmit}>
+      Next
+    </button>
+  </div>
+)}
+{step === 3 && (
+  <div className="use-case-step">
+    <h1 className="address-prompt">Select your daily use case</h1>
+    <div className="tiles-container">
+      {['Work', 'School', 'Gaming', 'Leisure'].map((useCase) => (
+        <div
+          key={useCase}
+          className={`tile ${dailyUseCase === useCase ? 'selected' : ''}`}
+          onClick={() => setDailyUseCase(useCase)}
+        >
+          <h3>{useCase}</h3>
+        </div>
+      ))}
+    </div>
+    <button className="submit-button" onClick={handleUseCaseSubmit}>
+      Submit
+    </button>
+  </div>
+)}
       </div>
     </LoadScript>
   );
