@@ -77,13 +77,8 @@ function FormComponent() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate('/plans'); // Navigate to the PlansPage after form submission
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleAddressSubmit();
-    }
+    // After processing the form, navigate to the PlansPage
+    navigate('/plans');
   };
 
   return (
