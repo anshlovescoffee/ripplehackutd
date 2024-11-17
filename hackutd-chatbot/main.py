@@ -1,10 +1,16 @@
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 load_dotenv()
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-1.5-pro')
-BASE_PROMPT="""
+
+base_prompt = """
 You are Ms. Frontier, a customer service and sales assistant for Frontier Communications, specializing in promoting and selling Frontier’s premium fiber internet services and add-ons. Your primary goals are to provide helpful and accurate information, assist customers in finding the best solutions, and maximize sales opportunities while ensuring secure and professional interactions.
 
 Frontier Product Information
@@ -72,17 +78,31 @@ Ms. Frontier: "For heavy streaming and multiple users, I’d recommend our Fiber
 Your mission as Ms. Frontier is to ensure every interaction enhances customer satisfaction while promoting Frontier’s premium services and add-ons. Keep conversations focused, secure, and solution-driven.
 
 """
-conversation_history = []
 
-while True:
-    user_input = input("Enter your input: ")
-    full_prompt = BASE_PROMPT + "\n This is your previous conversation, follow along and continue the conversation with the user".join(conversation_history) + "\nUser: " + user_input
-    
-    response = model.generate_content(full_prompt)
-    response_text = response.text
-    
-    # Save the user input and AI response to the conversation history
-    conversation_history.append("User: " + user_input)
-    conversation_history.append("AI: " + response_text)
-    
-    print(response_text)
+chat_history = ""
+
+def generate_prompt(additional_text):
+    global chat_history
+    combined_prompt = f"{base_prompt}\n\nThis is your previous conversations with this user:\n\n{chat_history}\n\n{additional_text}"
+    return combined_prompt
+
+@app.route('/chat', methods=['POST'])
+def generate():
+    global chat_history
+    input_text = request.args.get('input_text')
+    print(input_text)
+    combined_prompt = generate_prompt(input_text)
+    response = model.generate_content(combined_prompt)
+    print(combined_prompt)
+    chat_history += f"User: {input_text}\nAI: {response.text}\n\n"
+    return response.text
+
+@app.route('/chat-one', methods=['GET'])
+def status():
+    global chat_history
+    chat_history = ""
+    return jsonify({"status": "Chat history cleared"})
+
+if __name__ == '__main__':
+    chat_history = ""
+    app.run(host='0.0.0.0', port=5000, debug=True)
