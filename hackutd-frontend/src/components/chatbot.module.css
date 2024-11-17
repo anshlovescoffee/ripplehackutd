@@ -23,7 +23,7 @@
   position: absolute;
   bottom: 40px;
   right: 0;
-  width: 300px;
+  width: 350px;
   height: 400px;
   background: #1a1a1a;
   border-radius: 10px;
@@ -50,7 +50,7 @@
 }
 
 .message {
-  font-size: 17px;
+  font-size: 14px;
   padding: 8px 12px;
   margin: 4px 0;
   border-radius: 15px;

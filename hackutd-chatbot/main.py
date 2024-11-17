@@ -113,6 +113,7 @@ def generate():
 def status():
     global chat_history
     chat_history = ""
+    print("chat history cleared")
     return jsonify({"status": "Chat history cleared"})
 
 if __name__ == '__main__':

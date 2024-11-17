@@ -74,11 +74,30 @@ const Chatbot = () => {
     }
   };
 
+  const fetchInitialMessage = async () => {
+    try {
+      const res = await fetch('http://127.0.0.1:5000/chat-one');
+      if (!res.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await res.json();
+      setMessages([{ text: data.response, sender: 'bot' }]);
+    } catch (error) {
+      setMessages([{ text: "Hi! Thanks for talking to Frontier, we're always here to help with any issues!", sender: 'bot' }]);
+    }
+  };
+
   useEffect(() => {
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchInitialMessage();
+    }
+  }, [isOpen]);
 
   return (
     <div className={`${styles.chatbot} ${isOpen ? styles.open : ''}`}>
