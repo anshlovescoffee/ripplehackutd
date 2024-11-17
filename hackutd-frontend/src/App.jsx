@@ -7,7 +7,7 @@ import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png';
 import Page3 from './page3';
 import Chatbot from './components/chatbot.jsx'; // Import Chatbot component
-import LoginPage from './LoginPage';
+import LoginPage from './createPage.jsx';
 const libraries = ['places'];
 
 function measureInternetSpeed() {

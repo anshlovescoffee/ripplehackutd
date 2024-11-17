@@ -129,5 +129,7 @@
     background-color: #b02929; /* Original hover color */
 }
 .plan.selected {
+ 
     border-color: #0d9a2e; /* Gold border for selected add-on */
 }
+

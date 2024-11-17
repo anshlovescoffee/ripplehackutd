@@ -9,7 +9,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const generateAccountId = () => {
-    return Math.floor(Math.random() * 100000); // Generates a random account ID
+    return [...Array(64)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
   };
 
   const handleSubmit = (event) => {
