@@ -65,7 +65,6 @@ function FormComponent() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // After processing the form, navigate to the PlansPage
     navigate('/plans');
   };
 
