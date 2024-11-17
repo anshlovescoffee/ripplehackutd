@@ -3,9 +3,20 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={
+    r"/chat": {
+        "origins": [
+            "http://localhost:5173",  # Vite default port
+            "http://localhost:3000",  # React default port
+            "http://127.0.0.1:5173",
+            "http://127.0.0.1:3000"
+        ],
+        "methods": ["POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
+
 load_dotenv()
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel('gemini-1.5-pro')
@@ -95,6 +106,7 @@ def generate():
     response = model.generate_content(combined_prompt)
     print(combined_prompt)
     chat_history += f"User: {input_text}\nAI: {response.text}\n\n"
+    print(response.text)
     return response.text
 
 @app.route('/chat-one', methods=['GET'])

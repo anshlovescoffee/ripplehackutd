@@ -6,6 +6,7 @@ import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png';
 import Page3 from './page3';
+import Chatbot from './components/chatbot.jsx'; // Import Chatbot component
 
 const libraries = ['places'];
 
@@ -204,11 +205,14 @@ function FormComponent() {
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<FormComponent />} />
-        <Route path="/plans" element={<PlansPage />} />
-        <Route path="/page3" element={<Page3 />} />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<FormComponent />} />
+          <Route path="/plans" element={<PlansPage />} />
+          <Route path="/page3" element={<Page3 />} />
+        </Routes>
+        <Chatbot /> {/* Add Chatbot component here */}
+      </div>
     </Router>
   );
 }

@@ -1,5 +1,5 @@
 // Chatbot.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './chatbot.module.css';
 
 const Chatbot = () => {
@@ -7,23 +7,41 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const messageContainerRef = useRef(null);
 
   const callApi = async (userInput) => {
     const encodedPrompt = encodeURIComponent(userInput);
     const requestOptions = {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      body: JSON.stringify({
+        input_text: encodedPrompt
+      })
     };
 
+    console.log('Request Options:', requestOptions);
+
     try {
-      const res = await fetch(`https://api.talkwith.tech/game-one?input_text=${encodedPrompt}`, requestOptions);
+      const res = await fetch(`http://127.0.0.1:5000/chat?input_text=${encodedPrompt}`, requestOptions);
+      console.log('Response Status:', res.status);
+
       if (!res.ok) {
+        console.error('Response Error:', res.statusText);
         throw new Error('Something went wrong');
       }
-      const data = await res.json();
-      return data;
+
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        console.log('Response Data:', data);
+        return data;
+      } else {
+        const textData = await res.text();
+        console.log('Response Text:', textData);
+        return { response: textData };
+      }
     } catch (error) {
       console.error('API Error:', error);
       return { response: "Sorry, I'm having trouble connecting right now." };
@@ -56,6 +74,12 @@ const Chatbot = () => {
     }
   };
 
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div className={`${styles.chatbot} ${isOpen ? styles.open : ''}`}>
       <button 
@@ -71,7 +95,7 @@ const Chatbot = () => {
             <h3>Chat Assistant</h3>
           </div>
 
-          <div className={styles.messageContainer}>
+          <div className={styles.messageContainer} ref={messageContainerRef}>
             {messages.map((msg, idx) => (
               <div 
                 key={idx}
