@@ -4,7 +4,6 @@ import { LoadScript } from '@react-google-maps/api';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
-import frontierImage from './assets/frontier.png';
 import Page3 from './page3';
 import Chatbot from './components/chatbot.jsx'; // Import Chatbot component
 import LoginPage from './createPage.jsx';
@@ -171,7 +170,7 @@ function FormComponent() {
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
-        <img src={frontierImage} alt="Frontier" className="logo" />
+
         {step === 0 && (
           <div className="customer-step">
             <h1 className="address-prompt">Welcome to Frontier</h1>

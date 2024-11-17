@@ -29,9 +29,9 @@
   padding: 0; /* Remove padding to ensure it's at the very top */
   will-change: filter;
   transition: filter 300ms;
-  position: fixed; /* Keep it at the top */
+  position: absolute; /* Keep it at the top */
   top: 0; /* Align to the top of the page */
-  left: 50%;
+  left: 10%;
   transform: translateX(-50%);
   z-index: 1000; /* Ensure it stays above other elements */
 }

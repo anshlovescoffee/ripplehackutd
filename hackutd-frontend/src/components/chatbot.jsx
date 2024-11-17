@@ -1,7 +1,7 @@
 // Chatbot.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './chatbot.module.css';
-
+import frontierImage from './frontier.png';
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -100,52 +100,57 @@ const Chatbot = () => {
   }, [isOpen]);
 
   return (
-    <div className={`${styles.chatbot} ${isOpen ? styles.open : ''}`}>
-      <button 
-        className={styles.toggleButton}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {isOpen ? '✕' : '💬'}
-      </button>
+    <div>
+<a href="https://frontier.com" target="_blank" rel="noopener noreferrer">
+  <img src={frontierImage} alt="Frontier" className="logo" />
+</a>
+      <div className={`${styles.chatbot} ${isOpen ? styles.open : ''}`}>
+        <button 
+          className={styles.toggleButton}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? '✕' : '💬'}
+        </button>
 
-      {isOpen && (
-        <div className={styles.chatWindow}>
-          <div className={styles.chatHeader}>
-            <h3>Chat Assistant</h3>
+        {isOpen && (
+          <div className={styles.chatWindow}>
+            <div className={styles.chatHeader}>
+              <h3>Chat Assistant</h3>
+            </div>
+
+            <div className={styles.messageContainer} ref={messageContainerRef}>
+              {messages.map((msg, idx) => (
+                <div 
+                  key={idx}
+                  className={`${styles.message} ${styles[msg.sender]}`}
+                >
+                  {msg.text}
+                </div>
+              ))}
+              {isLoading && (
+                <div className={styles.loading}>
+                  Typing...
+                </div>
+              )}
+            </div>
+
+            <form onSubmit={handleSubmit} className={styles.inputForm}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message..."
+                className={styles.input}
+              />
+              <button type="submit" className={styles.sendButton}>
+                Send
+              </button>
+            </form>
           </div>
-
-          <div className={styles.messageContainer} ref={messageContainerRef}>
-            {messages.map((msg, idx) => (
-              <div 
-                key={idx}
-                className={`${styles.message} ${styles[msg.sender]}`}
-              >
-                {msg.text}
-              </div>
-            ))}
-            {isLoading && (
-              <div className={styles.loading}>
-                Typing...
-              </div>
-            )}
-          </div>
-
-          <form onSubmit={handleSubmit} className={styles.inputForm}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
-              className={styles.input}
-            />
-            <button type="submit" className={styles.sendButton}>
-              Send
-            </button>
-          </form>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default Chatbot;
