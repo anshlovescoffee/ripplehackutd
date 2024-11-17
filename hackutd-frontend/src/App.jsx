@@ -81,6 +81,12 @@ function FormComponent() {
     navigate('/plans');
   };
 
+
+  const handleKeyPress = (event) => {
+  if (event.key === 'Enter') {
+    handleAddressSubmit();
+  }
+  };
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
