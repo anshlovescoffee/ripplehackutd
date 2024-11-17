@@ -1,0 +1,133 @@
+/* src/page3.css */
+.page3-container {
+    padding: 20px;
+    background-color: #242424; /* Dark grey background to match the outer elements */
+    color: #fff; /* Set text color to white */
+    font-family: Arial, sans-serif;
+    max-width: 1200px; /* Set a maximum width for the container */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+.add-ons-wrapper {
+    display: flex;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    padding: 10px 0; /* Add some vertical padding */
+    position: relative; /* Position for mouse events */
+    scroll-behavior: smooth; /* Smooth scrolling */
+}
+
+.plans-list {
+    display: flex;
+    gap: 20px;
+    padding-right: 20px; /* Adjust padding to prevent content from being cut off */
+    padding-left: 20px; /* Adjust padding to prevent content from being cut off */
+    transition: transform 0.3s;
+}
+
+.plan {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 350px;
+    flex-shrink: 0;
+    max-width: 400px;
+    background-color: #1a1a1a; /* Dark background for the plan */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, opacity 0.3s;
+    position: relative; /* Position for checkbox */
+}
+
+.plan:hover {
+    transform: translateY(-5px);
+}
+
+.plan-header {
+    color: #fff; /* White text for the header */
+    background-color: #b02929; /* Red background for the header */
+    padding: 15px;
+    border-radius: 8px 8px 0 0; /* Rounded corners for the top */
+    text-align: center;
+}
+
+.plan-description {
+    padding: 15px;
+    color: #fff; /* White text for description */
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0; /* Hide the default checkbox */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.checkbox-input + .plan-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.checkbox-input:checked + .plan-header {
+    background-color: #daa617; /* Change background when checked */
+}
+
+.select-button {
+    background-color: #b02929; /* Original red background */
+    color: white; /* White text */
+    border: none; /* No border */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+.select-button.selected {
+    background-color: #daa617; /* Green background */
+    color: white; /* White text */
+    border: 2px solid #daa617; /* Green border */
+}
+
+.select-button:not(.selected):hover {
+    background-color: #990000; /* Original hover color */
+}
+
+.select-button:hover {
+    background-color: #990000;
+}
+
+.continue-button {
+    margin-top: 20px; /* Add margin for spacing */
+}
+
+/* Gradient overlays for fading effect */
+.fade-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    z-index: 1;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, #242424, transparent);
+}
+
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, #242424, transparent);
+}
+/* Add this to your page3.css */
+.select-button.selected {
+    background-color: #daa617; /* Green background */
+    color: white; /* White text */
+    border: 2px solid #daa617; /* Green border */
+}
+
+.select-button:not(.selected):hover {
+    background-color: #b02929; /* Original hover color */
+}
+.plan.selected {
+    border-color: #daa617; /* Gold border for selected add-on */
+}

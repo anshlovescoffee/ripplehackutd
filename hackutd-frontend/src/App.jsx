@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png'; // Import the image
-
+import Page3 from './page3'; // Adjust the path if necessary
 const libraries = ['places'];
 
 function FormComponent() {
@@ -176,6 +176,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FormComponent />} />
         <Route path="/plans" element={<PlansPage />} />
+        <Route path="/page3" element={<Page3 />} />
       </Routes>
     </Router>
   );
