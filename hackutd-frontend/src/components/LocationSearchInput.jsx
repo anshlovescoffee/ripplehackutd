@@ -1,4 +1,3 @@
-// LocationSearchInput.jsx
 import React, { useState } from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 
@@ -22,8 +21,8 @@ const LocationSearchInput = ({ onPlaceSelected }) => {
     <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
       <input
         type="text"
-        placeholder="Search for a location"
-        className="input-box"
+        placeholder="Enter your address here"
+        className="input-container"
       />
     </Autocomplete>
   );

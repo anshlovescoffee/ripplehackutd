@@ -5,30 +5,6 @@
   text-align: center;
 }
 
-.input-box, .select-box {
-  width: 100%;
-  max-width: 200px; /* Adjusted size */
-  height: 30px; /* Adjusted size */
-  padding: 5px; /* Adjusted size */
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -47,7 +23,107 @@
 .card {
   padding: 2em;
 }
+.logo {
+  height: 12em; 
+  width: auto;
+  padding: 3em; 
+  will-change: filter;
+  transition: filter 300ms;
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-.read-the-docs {
-  color: #888;
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+/* Style the autocomplete dropdown container */
+.pac-container {
+  width: 100% !important; /* Extend the width of the dropdown to match the input */
+  max-width: 800px; /* Match the container width */
+  border-radius: 0 0 15px 15px; /* Rounded corners for the bottom */
+  overflow: hidden;
+}
+
+/* Style the "powered by Google" text */
+.pac-container .pac-logo {
+  display: flex;
+  justify-content: center; /* Center the text */
+  width: 100%; /* Stretch the text across the dropdown */
+  padding: 5px 0;
+  background-color: #000; /* Match the dropdown background */
+  color: #fff; /* White text color */
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Full width */
+  max-width: 800px; /* Optional: Set a maximum width for the container */
+  margin: auto; /* Center the container */
+  border: 2px solid #ff0033; /* Red border */
+  border-radius: 9999px; /* Fully rounded corners */
+  overflow: hidden; /* Prevent elements from overflowing */
+  background-color: #000; /* Black background */
+  position: relative;
+}
+input.input-container.pac-target-input {
+  width: 800px; /* Adjust width as needed */
+  height: 60px; /* Adjust height as needed */
+  font-size: 18px; /* Optional: Adjust font size for better readability */
+  padding: 10px; /* Optional: Add padding for a cleaner look */
+  box-sizing: border-box; /* Ensures padding doesn't increase total size */
+}
+/* Input field styling */
+.input-container input {
+  flex-grow: 1; /* Make the input field expand to fill all available space */
+  width: 100%;
+  max-width: 900px; /* Ensure the input spans the entire width */
+  padding: 15px 40px; /* Adjust padding: 15px for top/bottom, 15px for left/right */
+  font-size: 1.2rem; /* Adjust font size */
+  color: #fff; /* White text */
+  background-color: transparent; /* Matches the container's background */
+  border: none; /* Remove border */
+  outline: none; /* Remove default outline */
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  text-align: left; /* Ensure text is aligned to the left */
+}
+
+/* Placeholder styling */
+.input-container input::placeholder {
+  color: #888; /* Light gray placeholder text */
+  font-style: italic;
+  font-size: 1.2rem; /* Match input font size */
+}
+
+/* New arrow button styling */
+.arrow-submit-button {
+  width: 57px; /* Circle size */
+  height: 56px;
+  background-color: #ff0033; /* Red background */
+  color: #fff; /* White arrow */
+  font-size: 1.5rem; /* Font size for arrow */
+  font-weight: bold;
+  border: none; /* No border */
+  border-radius: 50%; /* Makes the button circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  position: absolute; /* Position button over the container */
+  right: -4px; /* Aligns the button with the right edge */
+}
+
+/* Hover effect for the button */
+.arrow-submit-button:hover {
+  background-color: #cc0029; /* Darker red for hover */
+  transform: scale(1.1); /* Slight zoom */
 }
