@@ -1,40 +1,56 @@
 .plans-container {
     padding: 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden; /* Hide overflow for smooth fading */
+    width: 100%;
+  }
+  
+  .plans-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    position: relative;
+    /* Hide the scrollbar */
+    scrollbar-width: none; /* For Firefox */
+  }
+  
+  .plans-wrapper::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
   }
   
   .plans-list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center; 
-    gap: 20px; 
+    gap: 20px;
+    padding-right: 435px;
+    padding-left: 435px;
+    transition: transform 0.3s;
+    
   }
   
   .plan {
-    border: 1px solid #d03333;
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
-    flex: 1 1 calc(50% - 20px); 
-    max-width: 300px; 
-    transition: transform 0.3s;
+    min-width: 350px;
+    flex-shrink: 0;
+    max-width: 400px;
+    background-color: #1a1a1a;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, opacity 0.3s;
   }
   
   .plan:hover {
     transform: translateY(-5px);
   }
   
-  .highlight {
-    border-color: rgb(165, 13, 13);
-    background-color: #bf9201;
-    font-weight: bold;
-  }
-  
   .select-button {
     background-color: #b02929;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     margin-top: 10px;
@@ -43,5 +59,34 @@
   
   .select-button:hover {
     background-color: #990000;
+  }
+  
+  /* Gradient overlays for fading effect */
+  .fade-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    z-index: 1;
+    pointer-events: none; /* Allow clicks to pass through */
+  }
+  
+  .fade-left {
+    left: 0;
+    background: linear-gradient(to right, #242424, transparent);
+  }
+  
+  .fade-right {
+    right: 0;
+    background: linear-gradient(to left, #242424, transparent);
+  }
+  
+  .recommended {
+    border-color: gold !important; /* Gold border */
+  }
+  
+  .recommended .select-button {
+    background-color: gold !important; /* Gold button */
+    color: black !important; /* Black text for contrast */
   }
   
