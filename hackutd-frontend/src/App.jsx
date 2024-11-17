@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { LoadScript } from '@react-google-maps/api';
-import LocationSearchInput from './components/LocationSearchInput.jsx';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png'; // Import the image
 
@@ -50,10 +50,8 @@ function FormComponent() {
     );
     const city = cityComponent ? cityComponent.long_name : '';
     const state = stateComponent ? stateComponent.short_name : '';
-    console.log('Selected place:', city, state);
     setCity(city);
     setState(state);
-    console.log('Selected place:', place);
   };
 
   const handleAddressSubmit = () => {
@@ -77,16 +75,36 @@ function FormComponent() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // After processing the form, navigate to the PlansPage
-    navigate('/plans');
-  };
+    const requestData = {
+      address: location ? location.formatted_address : '',
+      peopleInHousehold: parseInt(peopleInHousehold, 10),
+      dailyUseCase,
+    };
 
+    console.log('Sending data to API:', requestData);
+    fetch('/api/urmom', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('API response:', data);
+        navigate('/plans');
+      })
+      .catch((error) => {
+        console.error('Error calling the API:', error);
+      });
+  };
 
   const handleKeyPress = (event) => {
-  if (event.key === 'Enter') {
-    handleAddressSubmit();
-  }
+    if (event.key === 'Enter') {
+      handleAddressSubmit();
+    }
   };
+
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
