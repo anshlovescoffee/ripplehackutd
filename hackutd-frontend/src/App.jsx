@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { LoadScript } from '@react-google-maps/api';
-import LocationSearchInput from './components/LocationSearchInput.jsx';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png'; // Import the image
 
@@ -83,22 +83,33 @@ function FormComponent() {
 
   const handleUseCaseSubmit = (event) => {
     event.preventDefault();
-    if (dailyUseCase) {
-      navigate('/plans');
-    } else {
-      alert('Please select a daily use case.');
-    }
+    const requestData = {
+      address: location ? location.formatted_address : '',
+      peopleInHousehold: parseInt(peopleInHousehold, 10),
+      dailyUseCase,
+    };
+
+    console.log('Sending data to API:', requestData);
+    fetch('/api/urmom', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('API response:', data);
+        navigate('/plans');
+      })
+      .catch((error) => {
+        console.error('Error calling the API:', error);
+      });
   };
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      if (step === 1) {
-        handleAddressSubmit();
-      } else if (step === 2) {
-        handlePeopleSubmit();
-      } else if (step === 3) {
-        handleUseCaseSubmit(event);
-      }
+      handleAddressSubmit();
     }
   };
 
