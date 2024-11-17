@@ -12,7 +12,7 @@ const plans = [
     name: 'Fiber 500',
     speed: 500, 
     price: 29.99, 
-    description: "Upload speeds 25x faster than cable             Amazon Eero 6+ Router Included" 
+    description: "Upload speeds 25x faster than cable Amazon Eero 6+ Router Included" 
   },
 
   { id: 2, name: 'Fiber 1 Gig', speed: 1000, price: 49.99 },
@@ -120,7 +120,9 @@ const PlansPage = () => {
               className={`plan ${plan.id === recommendedPlanId ? 'recommended' : ''}`}
             >
               <h2>{plan.name}</h2>
-              <p>{plan.description}</p>
+              <p>{plan.description1}</p>
+              <p>{plan.description2}</p>
+              <p>{plan.description3}</p>
               <button className="select-button" onClick={() => handleSelectPlan(plan.id)}>
                 Select Plan
               </button>

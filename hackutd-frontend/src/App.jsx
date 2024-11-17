@@ -7,7 +7,7 @@ import PlansPage from './PlansPage';
 import frontierImage from './assets/frontier.png';
 import Page3 from './page3';
 import Chatbot from './components/chatbot.jsx'; // Import Chatbot component
-
+import LoginPage from './LoginPage';
 const libraries = ['places'];
 
 function measureInternetSpeed() {
@@ -234,6 +234,7 @@ function App() {
           <Route path="/" element={<FormComponent />} />
           <Route path="/plans" element={<PlansPage />} />
           <Route path="/page3" element={<Page3 />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Chatbot /> {/* Add Chatbot component here */}
       </div>
