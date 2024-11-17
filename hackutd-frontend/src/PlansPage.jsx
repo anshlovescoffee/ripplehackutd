@@ -8,7 +8,13 @@ import './PlansPage.css';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const plans = [
-  { id: 1, name: 'Fiber 500', speed: 500, price: 29.99, description: "Upload speeds 25x faster than cable\n Amazon Eero 6+ Router Included" },
+  { id: 1,
+    name: 'Fiber 500',
+    speed: 500, 
+    price: 29.99, 
+    description: "Upload speeds 25x faster than cable             Amazon Eero 6+ Router Included" 
+  },
+
   { id: 2, name: 'Fiber 1 Gig', speed: 1000, price: 49.99 },
   { id: 3, name: 'Fiber 2 Gig', speed: 2000, price: 74.99 },
   { id: 4, name: 'Fiber 5 Gig', speed: 5000, price: 99.99 },
@@ -122,8 +128,7 @@ const PlansPage = () => {
           ))}
         </div>
       </div>
-      <div className="fade-overlay fade-left"></div>
-      <div className="fade-overlay fade-right"></div>
+      
 
       {/* Bar Graphs */}
       <div className="graphs-container">

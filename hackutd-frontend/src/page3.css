@@ -67,7 +67,7 @@
 }
 
 .checkbox-input:checked + .plan-header {
-    background-color: #daa617; /* Change background when checked */
+    background-color: #0d9a2e; /* Change background when checked */
 }
 
 .select-button {
@@ -82,9 +82,9 @@
     transition: background-color 0.3s;
 }
 .select-button.selected {
-    background-color: #daa617; /* Green background */
+    background-color: #0d9a2e; /* Green background */
     color: white; /* White text */
-    border: 2px solid #daa617; /* Green border */
+    border: 2px solid #0d9a2e; /* Green border */
 }
 
 .select-button:not(.selected):hover {
@@ -120,14 +120,14 @@
 }
 /* Add this to your page3.css */
 .select-button.selected {
-    background-color: #daa617; /* Green background */
+    background-color: #0d9a2e; /* Green background */
     color: white; /* White text */
-    border: 2px solid #daa617; /* Green border */
+    border: 2px solid #0d9a2e; /* Green border */
 }
 
 .select-button:not(.selected):hover {
     background-color: #b02929; /* Original hover color */
 }
 .plan.selected {
-    border-color: #daa617; /* Gold border for selected add-on */
+    border-color: #0d9a2e; /* Gold border for selected add-on */
 }

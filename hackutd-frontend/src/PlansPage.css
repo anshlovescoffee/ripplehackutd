@@ -63,25 +63,7 @@
   }
   
   /* Gradient overlays for fading effect */
-  .fade-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 40%;
-    z-index: 1;
-    pointer-events: none; /* Allow clicks to pass through */
-  }
-  
-  .fade-left {
-    left: 0;
-    background: linear-gradient(to right, #242424, transparent);
-  }
-  
-  .fade-right {
-    right: 0;
-    background: linear-gradient(to left, #242424, transparent);
-  }
-  
+
   .recommended {
     border-color: #daa617 !important; /* Gold border */
   }
