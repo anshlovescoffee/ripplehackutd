@@ -1,0 +1,30 @@
+.plans-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .plans-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .plan {
+    border: 1px solid #d03333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 200px;
+    margin: 10px;
+    transition: transform 0.3s;
+  }
+  
+  .plan:hover {
+    transform: translateY(-5px);
+  }
+  
+  .highlight {
+    border-color: rgb(165, 13, 13);
+    background-color: #bf9201;
+    font-weight: bold;
+  }
+  
