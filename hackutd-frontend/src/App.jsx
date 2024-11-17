@@ -10,6 +10,12 @@ function App() {
     const savedLocation = sessionStorage.getItem('location');
     return savedLocation ? JSON.parse(savedLocation) : null;
   });
+  const [city, setCity] = useState(() => {
+    return sessionStorage.getItem('city') || '';
+  });
+  const [state, setState] = useState(() => {
+    return sessionStorage.getItem('state') || '';
+  });
   const [peopleInHousehold, setPeopleInHousehold] = useState(() => {
     return sessionStorage.getItem('peopleInHousehold') || '';
   });
@@ -20,7 +26,13 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem('location', JSON.stringify(location));
   }, [location]);
+  useEffect(() => {
+    sessionStorage.setItem('city', city);
+  }, [city]);
 
+  useEffect(() => {
+    sessionStorage.setItem('state', state);
+  }, [state]);
   useEffect(() => {
     sessionStorage.setItem('peopleInHousehold', peopleInHousehold);
   }, [peopleInHousehold]);
@@ -31,9 +43,16 @@ function App() {
 
   const handlePlaceSelected = (place) => {
     setLocation(place);
+    const addressComponents = place.address_components;
+    const cityComponent = addressComponents.find(component => component.types.includes('locality'));
+    const stateComponent = addressComponents.find(component => component.types.includes('administrative_area_level_1'));
+    const city = cityComponent ? cityComponent.long_name : '';
+    const state = stateComponent ? stateComponent.short_name : '';
+    console.log('Selected place:', city, state)
+    setCity(city);
+    setState(state);
     console.log('Selected place:', place);
   };
-
   const handlePeopleChange = (event) => {
     const value = event.target.value;
     if (value >= 0 && value <= 20) {
