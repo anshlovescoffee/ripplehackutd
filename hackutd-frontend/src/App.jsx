@@ -68,7 +68,7 @@ function FormComponent() {
   const [peopleInHousehold, setPeopleInHousehold] = useState(() => sessionStorage.getItem('peopleInHousehold') || '');
   const [dailyUseCase, setDailyUseCase] = useState(() => sessionStorage.getItem('dailyUseCase') || '');
   const [baseNumber, setBaseNumber] = useState(() => parseFloat(sessionStorage.getItem('baseNumber')) || 0);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   const navigate = useNavigate();
 
@@ -117,7 +117,14 @@ function FormComponent() {
       alert('Please select an address.');
     }
   };
-
+  const handleCustomerSelection = (selection) => {
+    if (selection === 'new') {
+      setStep(1);
+    } else {
+      // Handle login
+      navigate('/loginold');
+    }
+  };
   const handlePeopleSubmit = () => {
     if (peopleInHousehold) {
       setStep(3);
@@ -161,11 +168,23 @@ function FormComponent() {
       handleAddressSubmit();
     }
   };
-
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
         <img src={frontierImage} alt="Frontier" className="logo" />
+        {step === 0 && (
+          <div className="customer-step">
+            <h1 className="address-prompt">Welcome to Frontier</h1>
+            <div className="tiles-container">
+              <div className="tile" onClick={() => handleCustomerSelection('new')}>
+                <h3>New Customer</h3>
+              </div>
+              <div className="tile" onClick={() => handleCustomerSelection('login')}>
+                <h3>Login</h3>
+              </div>
+            </div>
+          </div>
+        )}
         {step === 1 && (
           <div className="address-step">
             <h1 className="address-prompt">Find the plan that's right for you</h1>
@@ -224,7 +243,7 @@ function FormComponent() {
       </div>
     </LoadScript>
   );
-}
+};
 
 function App() {
   return (

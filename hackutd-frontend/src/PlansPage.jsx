@@ -12,13 +12,46 @@ const plans = [
     name: 'Fiber 500',
     speed: 500, 
     price: 29.99, 
-    description: "Upload speeds 25x faster than cable Amazon Eero 6+ Router Included" 
+    description1: "Upload speeds 25x faster than cable",
+    description2: "Amazon Eero 6+ Router Included",
+    description3: "Supports in a few and a few devices at the same time",
+
   },
 
-  { id: 2, name: 'Fiber 1 Gig', speed: 1000, price: 49.99 },
-  { id: 3, name: 'Fiber 2 Gig', speed: 2000, price: 74.99 },
-  { id: 4, name: 'Fiber 5 Gig', speed: 5000, price: 99.99 },
-  { id: 5, name: 'Fiber 7 Gig', speed: 7000, price: 299.99 },
+  { id: 2, 
+    name: 
+    'Fiber 1 Gig', 
+    speed: 1000, 
+    price: 49.99,
+    description1: "Upload speeds 25x faster than cable",
+    description2: "Amazon Eero Pro 6 Router Included",
+    description3: "For Smarthomes with dozens of devices",
+  },
+  { id: 3, 
+    name: 'Fiber 2 Gig', 
+    speed: 2000, 
+    price: 74.99,
+    description1: "Upload speeds 50x faster than cable",
+    description2: "Amazon Eero Pro 6E Router Included",
+    description3: "Ultra fast speeds for large smart phones",
+    
+  },
+  { id: 4, 
+    name: 'Fiber 5 Gig', 
+    speed: 5000, 
+    price: 99.99,
+    description1: "Upload speeds 125x faster than cable",
+    description2: "Amazon Eero Max 7 Router Included",
+    description3: "Fastest WiFi technology, available with WiFi 7",
+  },
+  { id: 5, 
+    name: 'Fiber 7 Gig', 
+    speed: 7000, 
+    price: 299.99, 
+    description1: "Upload speeds 200x faster than cable",
+    description2: "2Amazon Eero Max 7 devices Included",
+    description3: "Fastest WiFi technology, available with WiFi 7",
+  },
 ];
 
 const PlansPage = () => {
@@ -120,8 +153,8 @@ const PlansPage = () => {
               className={`plan ${plan.id === recommendedPlanId ? 'recommended' : ''}`}
             >
               <h2>{plan.name}</h2>
+              <h3>{plan.price}</h3>
               <p>{plan.description1}</p>
-              <p>{plan.description2}</p>
               <p>{plan.description3}</p>
               <button className="select-button" onClick={() => handleSelectPlan(plan.id)}>
                 Select Plan

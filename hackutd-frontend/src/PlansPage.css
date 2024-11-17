@@ -62,14 +62,12 @@
     background-color: #990000;
   }
   
-  /* Gradient overlays for fading effect */
-
   .recommended {
-    border-color: #099330 !important; /* Gold border */
+    border-color: #daa617 !important; /* Gold border */
   }
   
   .recommended .select-button {
-    background-color: #099330 !important; /* Gold button */
+    background-color: #daa617 !important; /* Gold button */
     color: black !important; /* Black text for contrast */
   }
   .graphs-container {
