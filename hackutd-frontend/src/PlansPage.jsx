@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { useNavigate } from 'react-router-dom';
 import './PlansPage.css';
 
 // Register necessary components
@@ -15,6 +16,7 @@ const plans = [
 ];
 
 const PlansPage = () => {
+  const navigate = useNavigate();
   const scrollContainerRef = useRef(null);
   const [recommendedPlanId, setRecommendedPlanId] = useState(2); // Set a fallback plan ID, e.g., 1
 
@@ -33,6 +35,11 @@ const PlansPage = () => {
         setRecommendedPlanId(2); // Fallback to plan ID 2 if the API call fails
       });
   }, []);
+
+  const handleSelectPlan = (planId) => {
+    console.log(`Selected Plan ID: ${planId}`);
+    navigate('/page3');
+  };
 
   // Bar graph data for speeds
   const speedData = {
@@ -101,7 +108,12 @@ const PlansPage = () => {
             >
               <h2>{plan.name}</h2>
               <p>{plan.description}</p>
-              <button className="select-button">Select Plan</button>
+              <button
+                className="select-button"
+                onClick={() => handleSelectPlan(plan.id)}
+              >
+                Select Plan
+              </button>
             </div>
           ))}
         </div>

@@ -70,10 +70,6 @@ function FormComponent() {
     }
   };
 
-  const handleUseCaseChange = (event) => {
-    setDailyUseCase(event.target.value);
-  };
-
   const handleUseCaseSubmit = (event) => {
     event.preventDefault();
     const requestData = {
@@ -122,49 +118,49 @@ function FormComponent() {
             </div>
           </div>
         )}
-{step === 2 && (
-  <div className="people-step">
-<h1 className="address-prompt">How many people live with you?</h1>
-<div className="tiles-container">
-  {[
-    { num: 1, label: 'Just Me' },
-    { num: 2, label: 'Me and Another Person' },
-    { num: 3, label: 'Three People' },
-    { num: 4, label: 'Four or More People' }
-  ].map(({ num, label }) => (
-    <div
-      key={num}
-      className={`tile ${peopleInHousehold === num.toString() ? 'selected' : ''}`}
-      onClick={() => setPeopleInHousehold(num.toString())}
-    >
-      <h3>{label}</h3>
-    </div>
-  ))}
-</div>
-    <button className="submit-button" onClick={handlePeopleSubmit}>
-      Next
-    </button>
-  </div>
-)}
-{step === 3 && (
-  <div className="use-case-step">
-    <h1 className="address-prompt">Select your daily use case</h1>
-    <div className="tiles-container">
-      {['Work', 'School', 'Gaming', 'Leisure'].map((useCase) => (
-        <div
-          key={useCase}
-          className={`tile ${dailyUseCase === useCase ? 'selected' : ''}`}
-          onClick={() => setDailyUseCase(useCase)}
-        >
-          <h3>{useCase}</h3>
-        </div>
-      ))}
-    </div>
-    <button className="submit-button" onClick={handleUseCaseSubmit}>
-      Submit
-    </button>
-  </div>
-)}
+        {step === 2 && (
+          <div className="people-step">
+            <h1 className="address-prompt">How many people live with you?</h1>
+            <div className="tiles-container">
+              {[
+                { num: 1, label: 'Just Me' },
+                { num: 2, label: 'Me and Another Person' },
+                { num: 3, label: 'Three People' },
+                { num: 4, label: 'Four or More People' },
+              ].map(({ num, label }) => (
+                <div
+                  key={num}
+                  className={`tile ${peopleInHousehold === num.toString() ? 'selected' : ''}`}
+                  onClick={() => setPeopleInHousehold(num.toString())}
+                >
+                  <h3>{label}</h3>
+                </div>
+              ))}
+            </div>
+            <button className="submit-button" onClick={handlePeopleSubmit}>
+              Next
+            </button>
+          </div>
+        )}
+        {step === 3 && (
+          <div className="use-case-step">
+            <h1 className="address-prompt">Select your daily use case</h1>
+            <div className="tiles-container">
+              {['Work', 'School', 'Gaming', 'Leisure'].map((useCase) => (
+                <div
+                  key={useCase}
+                  className={`tile ${dailyUseCase === useCase ? 'selected' : ''}`}
+                  onClick={() => setDailyUseCase(useCase)}
+                >
+                  <h3>{useCase}</h3>
+                </div>
+              ))}
+            </div>
+            <button className="submit-button" onClick={handleUseCaseSubmit}>
+              Submit
+            </button>
+          </div>
+        )}
       </div>
     </LoadScript>
   );
