@@ -18,23 +18,31 @@ const plans = [
 const PlansPage = () => {
   const navigate = useNavigate();
   const scrollContainerRef = useRef(null);
-  const [recommendedPlanId, setRecommendedPlanId] = useState(2); // Set a fallback plan ID, e.g., 1
 
+  // Initialize recommendedPlanId state
+  const [recommendedPlanId, setRecommendedPlanId] = useState(() => {
+    const storedValue = parseInt(sessionStorage.getItem('baseNumber'), 10);
+    return storedValue || 1; // Fallback to 1 if no valid stored value
+  });
+
+  // Update the recommendedPlanId whenever the component mounts or sessionStorage changes
   useEffect(() => {
-    // Example API call to get the recommended plan ID
-    fetch('/api/recommended-plan')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && data.recommendedPlanId) {
-          setRecommendedPlanId(data.recommendedPlanId); // Set the ID from the API
-        }
-      })
-      .catch(() => {
-        // Fallback value in case of error
-        console.error('Failed to fetch recommended plan. Using fallback value.');
-        setRecommendedPlanId(2); // Fallback to plan ID 2 if the API call fails
-      });
-  }, []);
+    const updateRecommendedPlanId = () => {
+      const storedValue = parseInt(sessionStorage.getItem('baseNumber'), 10);
+      if (storedValue && storedValue !== recommendedPlanId) {
+        setRecommendedPlanId(storedValue);
+      }
+    };
+
+    // Listen for changes in sessionStorage
+    window.addEventListener('storage', updateRecommendedPlanId);
+
+    // Initial check
+    updateRecommendedPlanId();
+
+    // Clean up the event listener on unmount
+    return () => window.removeEventListener('storage', updateRecommendedPlanId);
+  }, [recommendedPlanId]);
 
   const handleSelectPlan = (planId) => {
     console.log(`Selected Plan ID: ${planId}`);
@@ -71,14 +79,13 @@ const PlansPage = () => {
   const chartOptions = {
     plugins: {
       legend: {
-        display: true, // Display the legend
+        display: true,
         labels: {
           generateLabels: (chart) => {
-            // Custom labels to only show the gold color
             return [
               {
-                text: 'Recommended Plan', // No text for the label
-                fillStyle: '#daa617', // Gold color
+                text: 'Recommended Plan',
+                fillStyle: '#daa617',
                 fontColor: '#ffffff',
                 hidden: false,
                 lineCap: 'butt',
@@ -108,10 +115,7 @@ const PlansPage = () => {
             >
               <h2>{plan.name}</h2>
               <p>{plan.description}</p>
-              <button
-                className="select-button"
-                onClick={() => handleSelectPlan(plan.id)}
-              >
+              <button className="select-button" onClick={() => handleSelectPlan(plan.id)}>
                 Select Plan
               </button>
             </div>

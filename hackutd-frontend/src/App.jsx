@@ -67,6 +67,7 @@ function FormComponent() {
   const [state, setState] = useState(() => sessionStorage.getItem('state') || '');
   const [peopleInHousehold, setPeopleInHousehold] = useState(() => sessionStorage.getItem('peopleInHousehold') || '');
   const [dailyUseCase, setDailyUseCase] = useState(() => sessionStorage.getItem('dailyUseCase') || '');
+  const [baseNumber, setBaseNumber] = useState(() => parseFloat(sessionStorage.getItem('baseNumber')) || 0);
   const [step, setStep] = useState(1);
 
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ function FormComponent() {
     measureInternetSpeed(); // Measure and store speed on component mount
   }, []);
 
+  // Update session storage when location, city, or state changes
   useEffect(() => {
     sessionStorage.setItem('location', JSON.stringify(location));
   }, [location]);
@@ -125,6 +127,28 @@ function FormComponent() {
   };
 
   const handleUseCaseSubmit = () => {
+    let adjustedBaseNumber = baseNumber;
+
+    if (adjustedBaseNumber > 0 && adjustedBaseNumber < 5) {
+      if (dailyUseCase === "Gaming") {
+        adjustedBaseNumber += 1;
+      } else if (dailyUseCase === "Leisure") {
+        adjustedBaseNumber -= 1;
+      }
+
+      if (parseInt(peopleInHousehold) === 1) {
+        adjustedBaseNumber -= 1;
+      } else if (parseInt(peopleInHousehold) === 3) {
+        adjustedBaseNumber += 1;
+      } else if (parseInt(peopleInHousehold) >= 4) {
+        adjustedBaseNumber += 2;
+      }
+
+      adjustedBaseNumber = Math.max(1, Math.min(adjustedBaseNumber, 5));
+      setBaseNumber(adjustedBaseNumber);
+      sessionStorage.setItem('baseNumber', adjustedBaseNumber);
+    }
+
     if (dailyUseCase) {
       navigate('/plans');
     } else {
@@ -205,7 +229,10 @@ function FormComponent() {
 function App() {
   return (
     <Router>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a872f51c1baa1abef3a76d3bcc564e1a225c3d8c
       <div className="App">
         <Routes>
           <Route path="/" element={<FormComponent />} />
@@ -214,7 +241,10 @@ function App() {
         </Routes>
         <Chatbot /> {/* Add Chatbot component here */}
       </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> a872f51c1baa1abef3a76d3bcc564e1a225c3d8c
     </Router>
   );
 }
