@@ -172,7 +172,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FormComponent />} />
         <Route path="/plans" element={<PlansPage />} />
-        <Route path="/plans/page3" element={<Page3 />} />
+        <Route path="/page3" element={<Page3 />} />
       </Routes>
     </Router>
   );
