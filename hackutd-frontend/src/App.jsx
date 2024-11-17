@@ -205,13 +205,7 @@ function FormComponent() {
 function App() {
   return (
     <Router>
-<<<<<<< HEAD
-      <Routes>
-        <Route path="/" element={<FormComponent />} />
-        <Route path="/plans" element={<PlansPage />} />
-        <Route path="/page3" element={<Page3 />} />
-      </Routes>
-=======
+
       <div className="App">
         <Routes>
           <Route path="/" element={<FormComponent />} />
@@ -220,7 +214,7 @@ function App() {
         </Routes>
         <Chatbot /> {/* Add Chatbot component here */}
       </div>
->>>>>>> ba8265275becdd3e809078d4c3a7811ac463612c
+
     </Router>
   );
 }

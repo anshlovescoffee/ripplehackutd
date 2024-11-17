@@ -132,12 +132,7 @@ const Page3 = () => {
           ))}
         </div>
       </div>
-      <button 
-        className={`select-button ${isAnyAddOnSelected ? 'selected' : ''}`} 
-        onClick={() => navigate('/next-page')}
-      >
-        Continue
-      </button>
+      <button onClick={() => navigate('/login')} className="continue-button">Continue</button>
     </div>
   );
 };
