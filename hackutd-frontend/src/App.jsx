@@ -4,9 +4,58 @@ import { LoadScript } from '@react-google-maps/api';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import LocationSearchInput from './components/LocationSearchInput.jsx';
 import PlansPage from './PlansPage';
-import frontierImage from './assets/frontier.png'; // Import the image
-import Page3 from './page3'; // Adjust the path if necessary
+import frontierImage from './assets/frontier.png';
+import Page3 from './page3';
+
 const libraries = ['places'];
+
+function measureInternetSpeed() {
+  // Function to measure download speed
+  function measureDownloadSpeed() {
+    return new Promise((resolve) => {
+      const startTime = new Date().getTime();
+      const downloadSize = 1024 * 1024 / 1.6; // 1 MB
+      const image = new Image();
+
+      // Using a valid image URL for speed testing
+      image.src = `https://upload.wikimedia.org/wikipedia/commons/3/3c/IMG_logo_%282017%29.svg?${startTime}`;
+
+      image.onload = () => {
+        const endTime = new Date().getTime();
+        const duration = (endTime - startTime) / 1000; // Convert milliseconds to seconds
+        const speedBps = (downloadSize / duration) * 8; // Bits per second
+        const speedMbps = speedBps / (1024 * 1024); // Convert to Mbps
+        resolve(speedMbps);
+      };
+
+      image.onerror = () => {
+        resolve(null); // Resolve null on error
+      };
+    });
+  }
+
+  // Calculate and store download speed and base number
+  measureDownloadSpeed().then((downloadSpeed) => {
+    if (downloadSpeed) {
+      sessionStorage.setItem('downloadSpeedMbps', downloadSpeed.toFixed(2));
+      let baseNumber = 1;
+
+      if (downloadSpeed >= 100 && downloadSpeed < 500) {
+        baseNumber = 2;
+      } else if (downloadSpeed >= 500 && downloadSpeed < 1000) {
+        baseNumber = 3;
+      } else if (downloadSpeed >= 1000 && downloadSpeed < 2000) {
+        baseNumber = 4;
+      } else if (downloadSpeed >= 2000) {
+        baseNumber = 5;
+      }
+
+      sessionStorage.setItem('baseNumber', baseNumber);
+    } else {
+      console.error('Failed to measure internet speed.');
+    }
+  });
+}
 
 function FormComponent() {
   const [location, setLocation] = useState(() => {
@@ -17,9 +66,13 @@ function FormComponent() {
   const [state, setState] = useState(() => sessionStorage.getItem('state') || '');
   const [peopleInHousehold, setPeopleInHousehold] = useState(() => sessionStorage.getItem('peopleInHousehold') || '');
   const [dailyUseCase, setDailyUseCase] = useState(() => sessionStorage.getItem('dailyUseCase') || '');
-  const [step, setStep] = useState(1); // 1 for address entry, 2 for people entry, 3 for use case entry
+  const [step, setStep] = useState(1);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    measureInternetSpeed(); // Measure and store speed on component mount
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem('location', JSON.stringify(location));
@@ -70,30 +123,12 @@ function FormComponent() {
     }
   };
 
-  const handleUseCaseSubmit = (event) => {
-    event.preventDefault();
-    const requestData = {
-      address: location ? location.formatted_address : '',
-      peopleInHousehold: parseInt(peopleInHousehold, 10),
-      dailyUseCase,
-    };
-
-    console.log('Sending data to API:', requestData);
-    fetch('/api/urmom', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('API response:', data);
-        navigate('/plans');
-      })
-      .catch((error) => {
-        console.error('Error calling the API:', error);
-      });
+  const handleUseCaseSubmit = () => {
+    if (dailyUseCase) {
+      navigate('/plans');
+    } else {
+      alert('Please select your daily use case.');
+    }
   };
 
   const handleKeyPress = (event) => {
@@ -105,7 +140,7 @@ function FormComponent() {
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <div className="App">
-        <img src={frontierImage} alt="Frontier" className="logo" /> {/* Use the image */}
+        <img src={frontierImage} alt="Frontier" className="logo" />
         {step === 1 && (
           <div className="address-step">
             <h1 className="address-prompt">Find the plan that's right for you</h1>
@@ -123,10 +158,10 @@ function FormComponent() {
             <h1 className="address-prompt">How many people live with you?</h1>
             <div className="tiles-container">
               {[
-                { num: 1, label: 'Just Me' },
-                { num: 2, label: 'Me and Another Person' },
-                { num: 3, label: 'Three People' },
-                { num: 4, label: 'Four or More People' },
+                { num: 1, label: '1' },
+                { num: 2, label: '2-3' },
+                { num: 3, label: '4+' },
+                { num: 4, label: '8+' },
               ].map(({ num, label }) => (
                 <div
                   key={num}
@@ -172,7 +207,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FormComponent />} />
         <Route path="/plans" element={<PlansPage />} />
-        <Route path="/plans/page3" element={<Page3 />} />
+        <Route path="/page3" element={<Page3 />} />
       </Routes>
     </Router>
   );
